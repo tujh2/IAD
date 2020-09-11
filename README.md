@@ -1,0 +1,3 @@
+# Лабораторыне работы по курсу "Разработка интернет приложений"
+## Лабораторная работа 1:
+* [Код на языке Python](https://git.tujh.xyz/e.sysoykin/IADLabs/src/branch/master/lab1/lab1.py)
