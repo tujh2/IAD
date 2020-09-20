@@ -4,5 +4,5 @@
 * [Отчет](https://git.tujh.xyz/e.sysoykin/IADLabs/src/branch/master/reports/lab1.pdf)
 
 ## Лабораторная работа 2:
-* [virtualenv](https://git.tujh.xyz/e.sysoykin/IADLabs/src/branch/master/lab2)
+* [Код](https://git.tujh.xyz/e.sysoykin/IADLabs/src/branch/master/lab2)
 * [Отчет](https://git.tujh.xyz/e.sysoykin/IADLabs/src/branch/master/reports/lab2.pdf)
