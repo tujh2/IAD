@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<style>
+			html {
+				height: 100%
+			}
+			body {
+				min-height: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+			header {
+				width: 100%;
+				background-color: red;
+				text-align: center;
+				color: white;
+			}
+
+			nav {
+				width: 100%;
+				height: 40px;
+				background-color: blue;
+				color: white;
+				text-align: center;
+			}
+
+			nav a {
+				color: white;
+			}
+
+			footer {
+				width: 100%;
+				background-color: red;
+				text-align: center;
+				color: white;
+			}
+
+			main, iframe {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex: 1;
+				flex-direction: column;
+			}
+
+			iframe {
+				background-color: green;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header>It's header</header>
+		<main>
+			<nav>
+				<a href="images.html" target="main_frame">Images</a> |
+				<a href="lists.html" target="main_frame">Lists</a> |
+				<a href="table.html" target="main_frame">Table</a>
+			</nav>
+			<iframe name="main_frame" src="images.html" width=100% height=100%></iframe>
+		</main>
+		<footer>It's footer</footer>
+	</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+	<head>
+		<title>Lab6</title>
+	</head>
+	<body>
+		<form>
+			<div>
+				<div>
+					<label for="text">Input:</label>
+					<input id="text" name="text" type="text" placeholder="Input field"></input>
+				</div>
+				
+				<div>
+					<div>
+						<input name="checkbox1" id="checkbox1" type="checkbox">
+						<label for="checkbox1">Checkbox 1</label>
+					</div>
+					<div>
+						<input name="checkbox2" id="checkbox2" type="checkbox">
+						<label for="checkbox2">Checkbox 2</label>
+					</div>
+				</div>
+				
+				<div>
+					<div>
+						<input name="radiog" id="radio1" type="radio" checked="checked">
+						<label for="radio1">Radiobutton 1</label>
+					</div>
+					<div>
+						<input name="radiog" id="radio2" type="radio">
+						<label for="radio2">Radiobutton 2</label>
+					</div>
+				</div>
+
+				<div>
+					<label for="mtext">Multiline input:</label>
+					<textarea
+							id="mtext"
+							name="multiline" 
+							placeholder="Multiline text field">
+					</textarea>
+				</div>
+
+				<div>
+					<label for="listbox">List box:</label>	
+					<select id="listbox" name="listbox" role="listbox" size="4">
+						<option value="listitem1">1</option>
+						<option value="listitem2">2</option>
+						<option value="listitem3">3</option>
+						<option value="listitem4">4</option>
+					</select>
+				</div>
+				
+				<div>
+					<label for="combobox">Combo box:</label>
+					<select id="combobox" name="combobox" role="combobox">
+						<option value="comboitem1">1</option>
+						<option value="comboitem2">2</option>
+						<option value="comboitem3">3</option>
+						<option value="comboitem4">4</option>
+					</select>
+				</div>
+
+				<div>
+					<label for="inputlist">Input list box:</label>
+					<input id="inputlist" name="datalist" list="datalistitems">
+						<datalist id="datalistitems">
+							<option value="datalistitem1">1</option>
+							<option value="datalistitem2">2</option>
+							<option value="datalistitem3">3</option>
+							<option value="datalistitem4">4</option>
+						</datalist>
+					</input>
+				</div>
+
+				<button type="button">
+					<img src="images/btn.jpg" width=128/>
+				</button>
+				<input type="submit" value="Отправить"></input>
+			</div>
+		</form>
+	</body>
+</html>
+
