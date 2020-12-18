@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>RK2</title>
+		<style>
+			.detail * > th, .detail * > td {
+				border: 1px solid black;
+				padding: 1em;
+				text-align: center;
+			}
+
+			.detail * > tr:nth-child(odd) > td {
+				background-color: green;
+			}
+			
+			.detail * > tr:nth-child(even) > td {
+				background-color: blue;
+			}
+			
+			.provider > :nth-child(odd) {
+				background-color: green;
+			}
+			
+			.provider > :nth-child(even) {
+				background-color: blue;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>Table</h2>
+		<table style="width:100%" class="detail" cellspacing=4>
+			<tr>
+				<th>#</th>
+				<th>Название детали</th>
+				<th>Номер детали</th>
+				<th>Количество</th>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>Труба</td>
+				<td>111</td>
+				<td>100</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Фольга 2 мм</td>
+				<td>121</td>
+				<td>10</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>Крюк</td>
+				<td>132</td>
+				<td>20</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>Ткань</td>
+				<td>142</td>
+				<td>40</td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>Поршень</td>
+				<td>152</td>
+				<td>50</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>Фильтр</td>
+				<td>162</td>
+				<td>60</td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td>Стекло</td>
+				<td>172</td>
+				<td>20</td>
+			</tr>
+		</table>
+
+		<h2>Ordered list</h2>
+		<ol class="provider">
+			<li>ОАО "ТРУБПРОКАТ"</li>
+			<li>ОПТИМА ЭЛЕКТРОНИКС</li>
+			<li>БалаковоЗапчасть</li>
+			<li>ООО "КМ Груп"</li>
+			<li>ООО "Кранарк"</li>
+			<li>ОО "Премьер-Авто"</li>
+		</ol>
+	</body>
+</html>
