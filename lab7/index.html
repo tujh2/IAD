@@ -7,12 +7,201 @@
 			name="viewport" 
 			content="width=device-width, initial-scale=1" >
 		
-		<link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+		<link href="css/bootstrap.min.css" rel="stylesheet"/>
+		<script src="js/bootstrap.bundle.min.js"></script>
 	</head>
 
 	<body>
-		<h1>Test</h1>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Navigation</a>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="#tables">Tables</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#forms">Form</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#progressbars">Progressbar</a>
+					</li>
+					<li class="nav-item dropdown">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">Dropdown button</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<li><a class="dropdown-item" href="javascript:alert('Action')">Action</a></li>
+							<li><a class="dropdown-item" href="javascript:alert('Another action')">Another action</a></li>
+							<li><a class="dropdown-item" href="javascript:alert('else')">Something else here</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		
+		<div class="m-3">
+			<h2 id="tables">Tables</h2>
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+					<tr>
+						<th scope="col">1</th>
+						<th scope="col">2</th>
+						<th scope="col">3</th>
+						<th scope="col">4</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>A</td>
+						<td>B</td>
+						<td>C</td>
+						<td>D</td>
+					</tr>
+					<tr>
+						<td>E</td>
+						<td>G</td>
+						<td>I</td>
+						<td>K</td>
+					</tr>
+					<tr>
+						<td>L</td>
+						<td>M</td>
+						<td>N</td>
+						<td>O</td>
+					</tr>
+					<tr>
+						<td>P</td>
+						<td>R</td>
+						<td>S</td>
+						<td>T</td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th scope="col">1</th>
+						<th scope="col">2</th>
+						<th scope="col">3</th>
+						<th scope="col">4</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="table-success">success</td>
+						<td class="table-dark">dark</td>
+						<td class="table-dark">dark</td>
+						<td class="table-dark">dark</td>
+					</tr>
+					<tr>
+						<td class="table-success">success</td>
+						<td class="table-danger">danger</td>
+						<td class="table-danger">danger</td>
+						<td class="table-danger">danger</td>
+					</tr>
+					<tr>
+						<td class="table-success">success</td>
+						<td class="table-warning">warning</td>
+						<td class="table-warning">warning</td>
+						<td class="table-warning">warning</td>
+					</tr>
+					<tr>
+						<td class="table-success">success</td>
+						<td class="table-info">info</td>
+						<td class="table-info">info</td>
+						<td class="table-info">info</td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th scope="col">1</th>
+						<th scope="col">2</th>
+						<th scope="col">3</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td rowspan="2">multirow</td>
+						<td colspan="2">multicol</td>
+					</tr>
+					<tr>
+						<td>one</td>
+						<td>one</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
-		<script src="js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+		<div class="m-3">
+			<h2 id="forms">Form</h2>
+			<form>
+				<div class="form-group">
+					<label for="exampleFormControlInput1">Email address</label>
+					<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+				</div>
+				<div class="form-group">
+					<label for="exampleFormControlSelect1">Example select</label>
+					<select class="form-control" id="exampleFormControlSelect1">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="exampleFormControlSelect2">Example multiple select</label>
+					<select multiple class="form-control" id="exampleFormControlSelect2">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="exampleFormControlTextarea1">Example textarea</label>
+					<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+				</div>
+				<div class="form-group">
+					<div class="custom-control custom-radio">
+						<input type="radio" class="custom-control-input" id="radio1" name="radiogroup" value="radio2" checked="checked"></input>
+						<label class="custom-control-label" for="radio1">Radiobutton1</label>
+					</div>
+					<div class="custom-control custom-radio">
+						<input type="radio" class="custom-control-input" id="radio2" name="radiogroup" value="radio2"></input>
+						<label class="custom-control-label" for="radio2">Radiobutton2</label>
+					</div>
+				</div>
+				<div class="form-group">
+            				<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="checkbox1"></input>
+						<label class="custom-control-label" for="checkbox1">Accept term conditions</label>
+					</div>
+				</div>
+            			<input type="submit" class="btn btn-primary" value="Send"></input>
+			</form>
+		</div>
+
+		<div class="m-3">
+			<h2 id="progressbars">Progressbars</h2>
+			<div class="progress mb-1">
+				<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			<div class="progress mb-1">
+				<div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			<div class="progress mb-1">
+				<div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			<div class="progress mb-1">
+				<div class="progress-bar bg-warning" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+			</div>
+			<div class="progress mb-1">
+				<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+				<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 20%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+				<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 20%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+		</div>
 	</body>
 </html>
