@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function editStock(id) {
+            document.getElementById("stock_id").value = document.getElementById("stock_id_" + id).innerText;
+            document.getElementById("stock_addr").value = document.getElementById("stock_addr_" + id).innerText;
+            document.getElementById("stock_phone").value = document.getElementById("stock_phone_" + id).innerText;
+        }
+
+        async function deleteStock(id) {
+            let response = await fetch(window.location.host + '/api/delete?token=' + getToken() + '&table=stocks&id=' + id);
+            if (response.ok) {
+                alert('OK!');
+                location.reload();
+            }
+        }
+
+        function updateNewStock() {
+        }
+
+        function getToken() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('token');
+        }
+
+        function updateNewDetail() {
+
+        }
+
+        function editDetail(id) {
+            document.getElementById("detail_id").value = document.getElementById("detail_id_" + id).innerText;
+            document.getElementById("detail_name").value = document.getElementById("detail_name_" + id).innerText;
+            document.getElementById("detail_description").value = document.getElementById("detail_description_" + id).innerText;
+            document.getElementById("detail_weight").value = document.getElementById("detail_weight_" + id).innerText;
+            document.getElementById("detail_supplier").value = document.getElementById("detail_supplier_" + id).innerText;
+            document.getElementById("detail_image").value = document.getElementById("detail_image_" + id).innerText;
+        }
+
+        function deleteDetail(id) {
+
+        }
+
+        function updateNewSupplier() {
+
+        }
+
+        function editSupplier(id) {
+            document.getElementById("supplier_id").value = document.getElementById("supplier_id_" + id).innerText;
+            document.getElementById("supplier_name").value = document.getElementById("supplier_name_" + id).innerText;
+            document.getElementById("supplier_addr").value = document.getElementById("supplier_addr_" + id).innerText;
+            document.getElementById("supplier_phone").value = document.getElementById("supplier_phone_" + id).innerText;
+        }
+
+        function deleteSupplier(id) {
+
+        }
+
+        function updateNewDetailStock() {
+
+        }
+
+        function editDetailStock(id) {
+            document.getElementById("detail_stock_detail_id").value = document.getElementById("detail_stock_detail_id_" + id).innerText;
+            document.getElementById("detail_stock_stock_id").value = document.getElementById("detail_stock_stock_id_" + id).innerText;
+            document.getElementById("detail_stock_count").value = document.getElementById("detail_stock_count_" + id).innerText;
+        }
+
+        function deleteDetailStock(id) {
+
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Admin</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">Tables
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {{ range .UrlParams }}
+                        <li><a class="dropdown-item"
+                               href="/admin?token={{ .Token }}&table={{ .Table }}&offset={{ .Offset }}">{{ .Table }}</a>
+                        </li>
+                    {{ end }}
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+{{ if .Details }}
+    <div class="m-5">
+        <h1>Детали:</h1>
+        <div class="row align-items-start">
+
+            <table class="table table-bordered col">
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <a class="btn btn-primary" role="button">NEW</a>
+                    </th>
+                    <th scope="col">Номер</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Вес</th>
+                    <th scope="col">Превью</th>
+                    <th scope="col">Поставщик</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{ range .Details }}
+                    <tr>
+                        <td>
+                            <a class="btn btn-primary" role="button" onclick="editDetail({{ .ID }})">EDIT</a>
+                            <a class="btn btn-primary" role="button" onclick="deleteDetail({{ .ID }})">DELETE</a>
+                        </td>
+                        <td id="detail_id_{{ .ID }}">{{ .ID }}</td>
+                        <td id="detail_name_{{ .ID }}">{{ .Name }}</td>
+                        <td id="detail_description_{{ .ID }}">{{ .Description }}</td>
+                        <td id="detail_weight_{{ .ID }}">{{ .Weight }}</td>
+                        <td id="detail_image_{{ .ID }}">{{ .Image }}</td>
+                        <td id="detail_supplier_{{ .ID }}">{{ .Supplier }}</td>
+                    </tr>
+                {{ end }}
+                </tbody>
+            </table>
+
+            <div class="col">
+                <fieldset disabled>
+                    <div class="mb-3">
+                        <label for="stock_id" class="form-label">ID</label>
+                        <input type="text" class="form-control" id="detail_id">
+                    </div>
+                </fieldset>
+
+                <div class="mb-3">
+                    <label for="detail_name" class="form-label">Имя</label>
+                    <input type="text" class="form-control" id="detail_name">
+                </div>
+
+                <div class="mb-3">
+                    <label for="detail_description" class="form-label">Описание</label>
+                    <input type="text" class="form-control" id="detail_description">
+                </div>
+
+                <div class="mb-3">
+                    <label for="detail_weight" class="form-label">Вес</label>
+                    <input type="text" class="form-control" id="detail_weight">
+                </div>
+
+                <div class="mb-3">
+                    <label for="detail_image" class="form-label">Превью</label>
+                    <input type="text" class="form-control" id="detail_image">
+                </div>
+
+                <div class="mb-3">
+                    <label for="detail_supplier" class="form-label">Поставщик</label>
+                    <input type="text" class="form-control" id="detail_supplier">
+                </div>
+                <a class="btn btn-primary" role="button" onclick="updateNewDetail()">UPD/NEW</a>
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+{{ if .Stocks }}
+    <div class="m-5">
+        <h1>Склады:</h1>
+        <div class="row align-items-start">
+
+            <table class="table table-bordered col">
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <a class="btn btn-primary" role="button">NEW</a>
+                    </th>
+                    <th scope="col">Номер</th>
+                    <th scope="col">Адрес</th>
+                    <th scope="col">Телефон</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{ range .Stocks }}
+                    <tr>
+                        <td>
+                            <a class="btn btn-primary" role="button" onclick="editStock({{ .ID }})">EDIT</a>
+                            <a class="btn btn-primary" role="button" onclick="deleteStock({{ .ID }})">DELETE</a>
+                        </td>
+                        <td id="stock_id_{{ .ID }}">{{ .ID }}</td>
+                        <td id="stock_addr_{{ .ID }}">{{ .Address }}</td>
+                        <td id="stock_phone_{{ .ID }}">{{ .Phone }}</td>
+                    </tr>
+                {{ end }}
+                </tbody>
+            </table>
+
+            <div class="col">
+                <fieldset disabled>
+                <div class="mb-3">
+                    <label for="stock_id" class="form-label">ID</label>
+                    <input type="text" class="form-control" id="stock_id">
+                </div>
+                </fieldset>
+
+                <div class="mb-3">
+                    <label for="stock_addr" class="form-label">Адрес</label>
+                    <input type="text" class="form-control" id="stock_addr">
+                </div>
+                <div class="mb-3">
+                    <label for="stock_phone" class="form-label">Телефон</label>
+                    <input type="text" class="form-control" id="stock_phone">
+                </div>
+                <a class="btn btn-primary" role="button" onclick="updateNewStock()">UPD/NEW</a>
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+{{ if .Suppliers }}
+    <div class="m-5">
+        <h1>Поставщики:</h1>
+        <div class="row align-items-start">
+
+            <table class="table table-bordered col">
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <a class="btn btn-primary" role="button">NEW</a>
+                    </th>
+                    <th scope="col">Номер</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Адрес</th>
+                    <th scope="col">Телефон</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{ range .Suppliers }}
+                    <tr>
+                        <td>
+                            <a class="btn btn-primary" role="button" onclick="editSupplier({{ .ID }})">EDIT</a>
+                            <a class="btn btn-primary" role="button" onclick="deleteSupplier({{ .ID }})">DELETE</a>
+                        </td>
+                        <td id="supplier_id_{{ .ID }}">{{ .ID }}</td>
+                        <td id="supplier_name_{{ .ID }}">{{ .Name }}</td>
+                        <td id="supplier_addr_{{ .ID }}">{{ .Address }}</td>
+                        <td id="supplier_phone_{{ .ID }}">{{ .Phone }}</td>
+                    </tr>
+                {{ end }}
+                </tbody>
+            </table>
+
+            <div class="col">
+                <fieldset disabled>
+                    <div class="mb-3">
+                        <label for="supplier_id" class="form-label">ID</label>
+                        <input type="text" class="form-control" id="supplier_id">
+                    </div>
+                </fieldset>
+
+                <div class="mb-3">
+                    <label for="supplier_name" class="form-label">Имя</label>
+                    <input type="text" class="form-control" id="supplier_name">
+                </div>
+                <div class="mb-3">
+                    <label for="supplier_addr" class="form-label">Адрес</label>
+                    <input type="text" class="form-control" id="supplier_addr">
+                </div>
+                <div class="mb-3">
+                    <label for="supplier_phone" class="form-label">Телефон</label>
+                    <input type="text" class="form-control" id="supplier_phone">
+                </div>
+                <a class="btn btn-primary" role="button" onclick="updateNewSupplier()">UPD/NEW</a>
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+{{ if .DetailStocks }}
+    <div class="m-5">
+        <h1>Детали на складах:</h1>
+        <div class="row align-items-start">
+
+            <table class="table table-bordered col">
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <a class="btn btn-primary" role="button">NEW</a>
+                    </th>
+                    <th scope="col">Деталь</th>
+                    <th scope="col">Склад</th>
+                    <th scope="col">Количество</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{ range .DetailStocks }}
+                    <tr>
+                        <td>
+                            <a class="btn btn-primary" role="button" onclick="editDetailStock({{ .ID }})">EDIT</a>
+                            <a class="btn btn-primary" role="button" onclick="deleteDetailStock({{ .ID }})">DELETE</a>
+                        </td>
+                        <td id="detail_stock_detail_id_{{ .ID }}">{{ .DetailID }}</td>
+                        <td id="detail_stock_stock_id_{{ .ID }}">{{ .StockID }}</td>
+                        <td id="detail_stock_count_{{ .ID }}">{{ .Count }}</td>
+                    </tr>
+                {{ end }}
+                </tbody>
+            </table>
+
+            <div class="col">
+
+                <div class="mb-3">
+                    <label for="detail_stock_detail_id" class="form-label">Деталь</label>
+                    <input type="text" class="form-control" id="detail_stock_detail_id">
+                </div>
+                <div class="mb-3">
+                    <label for="detail_stock_stock_id" class="form-label">Склад</label>
+                    <input type="text" class="form-control" id="detail_stock_stock_id">
+                </div>
+                <div class="mb-3">
+                    <label for="detail_stock_count" class="form-label">Кол-во</label>
+                    <input type="text" class="form-control" id="detail_stock_count">
+                </div>
+                <a class="btn btn-primary" role="button" onclick="updateNewDetailStock()">UPD/NEW</a>
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+</body>
+</html>
