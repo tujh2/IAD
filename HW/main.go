@@ -24,6 +24,14 @@ func main() {
 		handlers.AdminHandler(writer, request, &applicationContext)
 	})
 
+	http.HandleFunc("/api/delete", func(writer http.ResponseWriter, request *http.Request) {
+		handlers.DeleteHandler(writer, request, &applicationContext)
+	})
+
+	http.HandleFunc("/api/update", func(writer http.ResponseWriter, request *http.Request) {
+		handlers.UpdateHandler(writer, request, &applicationContext)
+	})
+
 	static := http.FileServer(http.Dir(conf.Root + "static"))
 	http.Handle("/static/", http.StripPrefix("/static/", static))
 

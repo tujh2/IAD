@@ -13,24 +13,63 @@
             document.getElementById("stock_phone").value = document.getElementById("stock_phone_" + id).innerText;
         }
 
-        async function deleteStock(id) {
-            let response = await fetch(window.location.host + '/api/delete?token=' + getToken() + '&table=stocks&id=' + id);
+        function newStock() {
+            document.getElementById("stock_id").value = 0;
+            document.getElementById("stock_addr").value = "";
+            document.getElementById("stock_phone").value = "";
+        }
+
+        async function deleteRow(id, table) {
+            let response = await fetch(window.location.protocol + '//' + window.location.host + '/api/delete?token=' + getToken() + '&table=' + table + '&id=' + id);
             if (response.ok) {
                 alert('OK!');
                 location.reload();
             }
         }
 
-        function updateNewStock() {
+        async function updateNewStock() {
+            let response = await fetch(window.location.protocol + '//' + window.location.host + '/api/update?token=' + getToken() + '&table=stocks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({
+                    ID: Number(document.getElementById("stock_id").value),
+                    Address: document.getElementById("stock_addr").value,
+                    Phone: document.getElementById("stock_phone").value
+                })
+            });
+            if (response.ok) {
+                alert('OK!');
+                location.reload();
+            }
         }
+
 
         function getToken() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('token');
         }
 
-        function updateNewDetail() {
-
+        async function updateNewDetail() {
+            let response = await fetch(window.location.protocol + '//' + window.location.host + '/api/update?token=' + getToken() + '&table=details', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({
+                    ID: Number(document.getElementById("detail_id").value),
+                    Name: document.getElementById("detail_name").value,
+                    Description: document.getElementById("detail_description").value,
+                    Weight: Number(document.getElementById("detail_weight").value),
+                    Supplier: Number(document.getElementById("detail_supplier").value),
+                    Image: document.getElementById("detail_image").value
+                })
+            });
+            if (response.ok) {
+                alert('OK!');
+                location.reload();
+            }
         }
 
         function editDetail(id) {
@@ -42,11 +81,32 @@
             document.getElementById("detail_image").value = document.getElementById("detail_image_" + id).innerText;
         }
 
-        function deleteDetail(id) {
-
+        function newDetail() {
+            document.getElementById("detail_id").value = 0;
+            document.getElementById("detail_name").value = "";
+            document.getElementById("detail_description").value = "";
+            document.getElementById("detail_weight").value = "";
+            document.getElementById("detail_supplier").value = "";
+            document.getElementById("detail_image").value = "";
         }
 
-        function updateNewSupplier() {
+        async function updateNewSupplier() {
+            let response = await fetch(window.location.protocol + '//' + window.location.host + '/api/update?token=' + getToken() + '&table=suppliers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({
+                    ID: Number(document.getElementById("supplier_id").value),
+                    Name: document.getElementById("supplier_name").value,
+                    Address: document.getElementById("supplier_addr").value,
+                    Phone: document.getElementById("supplier_phone").value
+                })
+            });
+            if (response.ok) {
+                alert('OK!');
+                location.reload();
+            }
 
         }
 
@@ -57,11 +117,30 @@
             document.getElementById("supplier_phone").value = document.getElementById("supplier_phone_" + id).innerText;
         }
 
-        function deleteSupplier(id) {
-
+        function newSupplier() {
+            document.getElementById("supplier_id").value = 0;
+            document.getElementById("supplier_name").value = "";
+            document.getElementById("supplier_addr").value = "";
+            document.getElementById("supplier_phone").value = "";
         }
 
-        function updateNewDetailStock() {
+        async function updateNewDetailStock() {
+            let response = await fetch(window.location.protocol + '//' + window.location.host + '/api/update?token=' + getToken() + '&table=detail_stocks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({
+                    ID: Number(document.getElementById("detail_stock_id").value),
+                    StockID: Number(document.getElementById("detail_stock_stock_id").value),
+                    DetailID: Number(document.getElementById("detail_stock_detail_id").value),
+                    Count: Number(document.getElementById("detail_stock_count").value)
+                })
+            });
+            if (response.ok) {
+                alert('OK!');
+                location.reload();
+            }
 
         }
 
@@ -71,8 +150,10 @@
             document.getElementById("detail_stock_count").value = document.getElementById("detail_stock_count_" + id).innerText;
         }
 
-        function deleteDetailStock(id) {
-
+        function newDetailStock() {
+            document.getElementById("detail_stock_detail_id").value = "";
+            document.getElementById("detail_stock_stock_id").value = "";
+            document.getElementById("detail_stock_count").value = "";
         }
     </script>
 </head>
@@ -109,7 +190,7 @@
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary" role="button">NEW</a>
+                        <a class="btn btn-primary" role="button" onclick="newDetail()">NEW</a>
                     </th>
                     <th scope="col">Номер</th>
                     <th scope="col">Имя</th>
@@ -124,7 +205,8 @@
                     <tr>
                         <td>
                             <a class="btn btn-primary" role="button" onclick="editDetail({{ .ID }})">EDIT</a>
-                            <a class="btn btn-primary" role="button" onclick="deleteDetail({{ .ID }})">DELETE</a>
+                            <a class="btn btn-primary" role="button"
+                               onclick="deleteRow({{ .ID }}, 'details')">DELETE</a>
                         </td>
                         <td id="detail_id_{{ .ID }}">{{ .ID }}</td>
                         <td id="detail_name_{{ .ID }}">{{ .Name }}</td>
@@ -184,7 +266,7 @@
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary" role="button">NEW</a>
+                        <a class="btn btn-primary" role="button" onclick="newStock()">NEW</a>
                     </th>
                     <th scope="col">Номер</th>
                     <th scope="col">Адрес</th>
@@ -196,7 +278,7 @@
                     <tr>
                         <td>
                             <a class="btn btn-primary" role="button" onclick="editStock({{ .ID }})">EDIT</a>
-                            <a class="btn btn-primary" role="button" onclick="deleteStock({{ .ID }})">DELETE</a>
+                            <a class="btn btn-primary" role="button" onclick="deleteRow({{ .ID }}, 'stocks')">DELETE</a>
                         </td>
                         <td id="stock_id_{{ .ID }}">{{ .ID }}</td>
                         <td id="stock_addr_{{ .ID }}">{{ .Address }}</td>
@@ -208,10 +290,10 @@
 
             <div class="col">
                 <fieldset disabled>
-                <div class="mb-3">
-                    <label for="stock_id" class="form-label">ID</label>
-                    <input type="text" class="form-control" id="stock_id">
-                </div>
+                    <div class="mb-3">
+                        <label for="stock_id" class="form-label">ID</label>
+                        <input type="text" class="form-control" id="stock_id">
+                    </div>
                 </fieldset>
 
                 <div class="mb-3">
@@ -237,7 +319,7 @@
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary" role="button">NEW</a>
+                        <a class="btn btn-primary" role="button" onclick="newSupplier()">NEW</a>
                     </th>
                     <th scope="col">Номер</th>
                     <th scope="col">Имя</th>
@@ -250,7 +332,8 @@
                     <tr>
                         <td>
                             <a class="btn btn-primary" role="button" onclick="editSupplier({{ .ID }})">EDIT</a>
-                            <a class="btn btn-primary" role="button" onclick="deleteSupplier({{ .ID }})">DELETE</a>
+                            <a class="btn btn-primary" role="button"
+                               onclick="deleteRow({{ .ID }}, 'suppliers')">DELETE</a>
                         </td>
                         <td id="supplier_id_{{ .ID }}">{{ .ID }}</td>
                         <td id="supplier_name_{{ .ID }}">{{ .Name }}</td>
@@ -296,8 +379,9 @@
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary" role="button">NEW</a>
+                        <a class="btn btn-primary" role="button" onclick="newDetailStock()">NEW</a>
                     </th>
+                    <th scope="col">ID</th>
                     <th scope="col">Деталь</th>
                     <th scope="col">Склад</th>
                     <th scope="col">Количество</th>
@@ -308,8 +392,9 @@
                     <tr>
                         <td>
                             <a class="btn btn-primary" role="button" onclick="editDetailStock({{ .ID }})">EDIT</a>
-                            <a class="btn btn-primary" role="button" onclick="deleteDetailStock({{ .ID }})">DELETE</a>
+                            <a class="btn btn-primary" role="button" onclick="deleteRow({{ .ID }}, 'detail_stocks')">DELETE</a>
                         </td>
+                        <td id="detail_stock_id_{{ .ID }}">{{ .ID }}</td>
                         <td id="detail_stock_detail_id_{{ .ID }}">{{ .DetailID }}</td>
                         <td id="detail_stock_stock_id_{{ .ID }}">{{ .StockID }}</td>
                         <td id="detail_stock_count_{{ .ID }}">{{ .Count }}</td>
@@ -319,6 +404,12 @@
             </table>
 
             <div class="col">
+                <fieldset disabled>
+                    <div class="mb-3">
+                        <label for="detail_stock_id" class="form-label">ID</label>
+                        <input type="text" class="form-control" id="detail_stock_id">
+                    </div>
+                </fieldset>
 
                 <div class="mb-3">
                     <label for="detail_stock_detail_id" class="form-label">Деталь</label>
