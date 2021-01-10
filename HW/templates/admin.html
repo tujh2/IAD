@@ -158,10 +158,10 @@
     </script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Admin</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <h2 class="text-light">Admin</h2>
+    <div class="navbar-expand" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto">
             <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
             </li>
@@ -186,11 +186,11 @@
         <h1>Детали:</h1>
         <div class="row align-items-start">
 
-            <table class="table table-bordered col">
+            <table class="table table-striped col">
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary" role="button" onclick="newDetail()">NEW</a>
+                        <a class="btn btn-primary btn-sm" role="button" onclick="newDetail()">NEW</a>
                     </th>
                     <th scope="col">Номер</th>
                     <th scope="col">Имя</th>
@@ -204,9 +204,11 @@
                 {{ range .Details }}
                     <tr>
                         <td>
-                            <a class="btn btn-primary" role="button" onclick="editDetail({{ .ID }})">EDIT</a>
-                            <a class="btn btn-primary" role="button"
-                               onclick="deleteRow({{ .ID }}, 'details')">DELETE</a>
+                            <div class="btn-group-sm">
+                                <a class="btn btn-warning btn-sm" role="button" onclick="editDetail({{ .ID }})">EDIT</a>
+                                <a class="btn btn-danger btn-sm" role="button"
+                                   onclick="deleteRow({{ .ID }}, 'details')">DEL</a>
+                            </div>
                         </td>
                         <td id="detail_id_{{ .ID }}">{{ .ID }}</td>
                         <td id="detail_name_{{ .ID }}">{{ .Name }}</td>
@@ -262,11 +264,11 @@
         <h1>Склады:</h1>
         <div class="row align-items-start">
 
-            <table class="table table-bordered col">
+            <table class="table table-striped col">
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary" role="button" onclick="newStock()">NEW</a>
+                        <a class="btn btn-primary btn-sm" role="button" onclick="newStock()">NEW</a>
                     </th>
                     <th scope="col">Номер</th>
                     <th scope="col">Адрес</th>
@@ -277,8 +279,9 @@
                 {{ range .Stocks }}
                     <tr>
                         <td>
-                            <a class="btn btn-primary" role="button" onclick="editStock({{ .ID }})">EDIT</a>
-                            <a class="btn btn-primary" role="button" onclick="deleteRow({{ .ID }}, 'stocks')">DELETE</a>
+                            <a class="btn btn-warning btn-sm" role="button" onclick="editStock({{ .ID }})">EDIT</a>
+                            <a class="btn btn-danger btn-sm" role="button"
+                               onclick="deleteRow({{ .ID }}, 'stocks')">DEL</a>
                         </td>
                         <td id="stock_id_{{ .ID }}">{{ .ID }}</td>
                         <td id="stock_addr_{{ .ID }}">{{ .Address }}</td>
@@ -315,11 +318,11 @@
         <h1>Поставщики:</h1>
         <div class="row align-items-start">
 
-            <table class="table table-bordered col">
+            <table class="table table-striped col">
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary" role="button" onclick="newSupplier()">NEW</a>
+                        <a class="btn btn-primary btn-sm" role="button" onclick="newSupplier()">NEW</a>
                     </th>
                     <th scope="col">Номер</th>
                     <th scope="col">Имя</th>
@@ -331,9 +334,8 @@
                 {{ range .Suppliers }}
                     <tr>
                         <td>
-                            <a class="btn btn-primary" role="button" onclick="editSupplier({{ .ID }})">EDIT</a>
-                            <a class="btn btn-primary" role="button"
-                               onclick="deleteRow({{ .ID }}, 'suppliers')">DELETE</a>
+                            <a class="btn btn-warning btn-sm" role="button" onclick="editSupplier({{ .ID }})">EDIT</a>
+                            <a class="btn btn-danger btn-sm" role="button" onclick="deleteRow({{ .ID }}, 'suppliers')">DEL</a>
                         </td>
                         <td id="supplier_id_{{ .ID }}">{{ .ID }}</td>
                         <td id="supplier_name_{{ .ID }}">{{ .Name }}</td>
@@ -375,11 +377,11 @@
         <h1>Детали на складах:</h1>
         <div class="row align-items-start">
 
-            <table class="table table-bordered col">
+            <table class="table table-striped col">
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary" role="button" onclick="newDetailStock()">NEW</a>
+                        <a class="btn btn-primary btn-sm" role="button" onclick="newDetailStock()">NEW</a>
                     </th>
                     <th scope="col">ID</th>
                     <th scope="col">Деталь</th>
@@ -391,8 +393,10 @@
                 {{ range .DetailStocks }}
                     <tr>
                         <td>
-                            <a class="btn btn-primary" role="button" onclick="editDetailStock({{ .ID }})">EDIT</a>
-                            <a class="btn btn-primary" role="button" onclick="deleteRow({{ .ID }}, 'detail_stocks')">DELETE</a>
+                            <a class="btn btn-warning btn-sm" role="button"
+                               onclick="editDetailStock({{ .ID }})">EDIT</a>
+                            <a class="btn btn-danger btn-sm" role="button"
+                               onclick="deleteRow({{ .ID }}, 'detail_stocks')">DEL</a>
                         </td>
                         <td id="detail_stock_id_{{ .ID }}">{{ .ID }}</td>
                         <td id="detail_stock_detail_id_{{ .ID }}">{{ .DetailID }}</td>

@@ -19,7 +19,7 @@
 <div class="m-5">
     <a class="btn btn-primary" role="button" href="/">На главную</a>
     <h1>Деталь: {{ .Detail.Name }}</h1>
-    <table class="table table-bordered">
+    <table class="table">
         <thead>
         <tr>
             <th scope="col">Номер</th>
@@ -40,7 +40,7 @@
 
     {{ if .Supplier }}
     <h1>Поставщик: {{ .Supplier.Name }}</h1>
-    <table class="table table-bordered">
+    <table class="table">
         <thead>
         <tr>
             <th scope="col">Номер</th>
@@ -60,7 +60,7 @@
 
     {{ if .Stocks }}
         <h1>Склады:</h1>
-        <table class="table table-bordered">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">Номер</th>
