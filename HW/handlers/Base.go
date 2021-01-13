@@ -32,7 +32,7 @@ func writeCode(error ErrorStruct, w http.ResponseWriter, ctx *utils.AppContext) 
 
 func writeHttpCode(code int, w http.ResponseWriter)  {
 	log.Println(fmt.Sprintf("Error(code): %d", code))
-	w.WriteHeader(http.StatusForbidden)
+	w.WriteHeader(code)
 	switch code {
 	case http.StatusForbidden:
 		_, _ = w.Write([]byte("403 Access denied."))
@@ -40,5 +40,7 @@ func writeHttpCode(code int, w http.ResponseWriter)  {
 		_, _ = w.Write([]byte("500 Internal server error."))
 	case http.StatusNotFound:
 		_, _ = w.Write([]byte("404 Not found."))
+	case http.StatusBadRequest:
+		_, _ = w.Write([]byte("400 Bad request. Check params."))
 	}
 }

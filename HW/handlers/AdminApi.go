@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -26,13 +27,13 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 
 	switch tableStr {
 	case "details":
-		ctx.DB.Delete(&models.Detail{}, id)
+		ctx.DB.Unscoped().Delete(&models.Detail{}, id)
 	case "suppliers":
-		ctx.DB.Delete(&models.Supplier{}, id)
+		ctx.DB.Unscoped().Delete(&models.Supplier{}, id)
 	case "stocks":
-		ctx.DB.Delete(&models.Stock{}, id)
+		ctx.DB.Unscoped().Delete(&models.Stock{}, id)
 	case "detail_stocks":
-		ctx.DB.Delete(&models.DetailStock{}, id)
+		ctx.DB.Unscoped().Delete(&models.DetailStock{}, id)
 	}
 }
 
@@ -52,14 +53,13 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 		return
 	}
 
-
 	switch tableStr {
 	case "details":
 		var detail = models.Detail{}
 		err := json.Unmarshal(bodyBytes, &detail)
 		if err != nil {
 			log.Println(err)
-			writeHttpCode(http.StatusInternalServerError, w)
+			writeHttpCode(http.StatusBadRequest, w)
 			return
 		}
 		ctx.DB.Save(&detail)
@@ -68,7 +68,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 		err := json.Unmarshal(bodyBytes, &supplier)
 		if err != nil {
 			log.Println(err)
-			writeHttpCode(http.StatusInternalServerError, w)
+			writeHttpCode(http.StatusBadRequest, w)
 			return
 		}
 		ctx.DB.Save(&supplier)
@@ -77,7 +77,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 		err := json.Unmarshal(bodyBytes, &stock)
 		if err != nil {
 			log.Println(err)
-			writeHttpCode(http.StatusInternalServerError, w)
+			writeHttpCode(http.StatusBadRequest, w)
 			return
 		}
 		ctx.DB.Save(&stock)
@@ -86,7 +86,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 		err := json.Unmarshal(bodyBytes, &detailStock)
 		if err != nil {
 			log.Println(err)
-			writeHttpCode(http.StatusInternalServerError, w)
+			writeHttpCode(http.StatusBadRequest, w)
 			return
 		}
 		ctx.DB.Save(&detailStock)
@@ -94,9 +94,14 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 
 }
 
-
 func UploadImage(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext) {
-	err := r.ParseMultipartForm(10 << 20)
+	token := r.URL.Query().Get("token")
+	if token != ctx.Config.AdminToken {
+		writeHttpCode(http.StatusForbidden, w)
+		return
+	}
+
+	err := r.ParseMultipartForm(5 << 20)
 	if err != nil {
 		log.Println(err)
 		writeHttpCode(http.StatusInternalServerError, w)
@@ -105,7 +110,7 @@ func UploadImage(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext) 
 	file, handler, err := r.FormFile("file")
 	if err != nil {
 		log.Println(err)
-		writeHttpCode(http.StatusInternalServerError, w)
+		writeHttpCode(http.StatusBadRequest, w)
 		return
 	}
 	defer file.Close()
@@ -123,10 +128,29 @@ func UploadImage(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext) 
 	hasher := sha1.New()
 	hasher.Write(fileBytes)
 	fileId := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
-	err = ioutil.WriteFile(ctx.Config.Root + "images/" + fileId, fileBytes, 0644)
+	err = ioutil.WriteFile(ctx.Config.Root+"images/"+fileId, fileBytes, 0644)
 	if err != nil {
 		log.Println(err)
 		writeHttpCode(http.StatusInternalServerError, w)
 		return
 	}
+}
+
+func DeleteFileHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext) {
+	token := r.URL.Query().Get("token")
+	if token != ctx.Config.AdminToken {
+		writeHttpCode(http.StatusForbidden, w)
+		return
+	}
+	fileID := r.URL.Query().Get("fileID")
+	if len(fileID) == 0 {
+		writeHttpCode(http.StatusBadRequest, w)
+		return
+	}
+	err := os.Remove(ctx.Config.Root + "images/" + fileID)
+	if err != nil {
+		writeHttpCode(http.StatusInternalServerError, w)
+		return
+	}
+
 }

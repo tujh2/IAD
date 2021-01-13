@@ -18,14 +18,25 @@ func main() {
 		log.Println(request.URL.Path)
 		handlers.MasterHandler(writer, request, &applicationContext)
 	})
+
 	http.HandleFunc("/detail", func(writer http.ResponseWriter, request *http.Request) {
 		log.Println(request.URL.Path)
 		handlers.DetailHandler(writer, request, &applicationContext)
 	})
+	http.HandleFunc("/stock", func(writer http.ResponseWriter, request *http.Request) {
+		log.Println(request.URL.Path)
+		handlers.StockHandler(writer, request, &applicationContext)
+	})
+	http.HandleFunc("/supplier", func(writer http.ResponseWriter, request *http.Request) {
+		log.Println(request.URL.Path)
+		handlers.SupplierHandler(writer, request, &applicationContext)
+	})
+
 	http.HandleFunc("/admin", func(writer http.ResponseWriter, request *http.Request) {
 		log.Println(request.URL.Path)
 		handlers.AdminHandler(writer, request, &applicationContext)
 	})
+
 
 	http.HandleFunc("/api/delete", func(writer http.ResponseWriter, request *http.Request) {
 		log.Println(request.URL.Path)
@@ -40,6 +51,11 @@ func main() {
 	http.HandleFunc("/api/upload", func(writer http.ResponseWriter, request *http.Request) {
 		log.Println(request.URL.Path)
 		handlers.UploadImage(writer, request, &applicationContext)
+	})
+
+	http.HandleFunc("/api/remove", func(writer http.ResponseWriter, request *http.Request) {
+		log.Println(request.URL.Path)
+		handlers.DeleteFileHandler(writer, request, &applicationContext)
 	})
 
 	static := http.FileServer(http.Dir(conf.Root + "static"))

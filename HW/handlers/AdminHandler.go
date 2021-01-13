@@ -22,6 +22,7 @@ type AdminHtmlPageObject struct {
 type UrlParam struct {
 	Token  string
 	Table  string
+	Label  string
 	Offset string
 }
 
@@ -41,11 +42,11 @@ func AdminHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext)
 
 	var pageData = AdminHtmlPageObject{
 		UrlParams: []UrlParam{
-			{Token: token, Table: "details", Offset: offsetStr},
-			{Token: token, Table: "suppliers", Offset: offsetStr},
-			{Token: token, Table: "stocks", Offset: offsetStr},
-			{Token: token, Table: "detail_stocks", Offset: offsetStr},
-			{Token: token, Table: "images", Offset: offsetStr},
+			{Token: token, Table: "details", Label: "Детали", Offset: offsetStr},
+			{Token: token, Table: "suppliers", Label: "Поставщики", Offset: offsetStr},
+			{Token: token, Table: "stocks", Label: "Склады", Offset: offsetStr},
+			{Token: token, Table: "detail_stocks", Label: "Детали на складах", Offset: offsetStr},
+			{Token: token, Table: "images", Label: "Изображения", Offset: offsetStr},
 		},
 	}
 

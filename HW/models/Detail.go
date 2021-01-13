@@ -10,3 +10,9 @@ type Detail struct {
 	Image       string  `gorm:"image"`
 	Supplier    uint    `gorm:"supplier_id"`
 }
+
+type DetailView struct {
+	Detail
+	Count        uint   `gorm:"count"`
+	SupplierName string `gorm:"supplier_name"`
+}

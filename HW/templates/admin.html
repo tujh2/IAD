@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="static/css/bootstrap.min.css" rel="stylesheet">
-    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/all.min.css" rel="stylesheet"> <!-- Font Awesome -->
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
 
     <style>
         .limited-keepaspect {
@@ -155,6 +156,7 @@
         }
 
         function editDetailStock(id) {
+            document.getElementById("detail_stock_id").value = document.getElementById("detail_stock_id_" + id).innerText;
             document.getElementById("detail_stock_detail_id").value = document.getElementById("detail_stock_detail_id_" + id).innerText;
             document.getElementById("detail_stock_stock_id").value = document.getElementById("detail_stock_stock_id_" + id).innerText;
             document.getElementById("detail_stock_count").value = document.getElementById("detail_stock_count_" + id).innerText;
@@ -165,22 +167,48 @@
             document.getElementById("detail_stock_stock_id").value = "";
             document.getElementById("detail_stock_count").value = "";
         }
+
+        async function uploadImage() {
+            let photo = document.getElementById("img").files[0];
+            let formData = new FormData();
+
+            formData.append("file", photo);
+            let response = await fetch(window.location.protocol + '//' + window.location.host + '/api/upload?token=' + getToken(), {
+                method: "POST",
+                body: formData
+            });
+            if (response.ok) {
+                alert('OK!');
+                location.reload();
+            }
+        }
+
+        async function deleteImage(fileID) {
+            let response = await fetch(window.location.protocol + '//' + window.location.host + '/api/remove?token=' + getToken() + '&fileID=' + fileID);
+            if (response.ok) {
+                alert('OK!');
+                location.reload();
+            }
+        }
     </script>
 </head>
 <body>
 <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <h2 class="text-light">Admin</h2>
-    <div class="navbar-expand" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-            {{ range .UrlParams}}
+    <div class="container-fluid">
+        <h2 class="navbar-brand">Admin</h2>
+        <div class="navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2">
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin?token={{ .Token }}&table={{ .Table }}&offset={{ .Offset }}">{{ .Table }}</a>
+                    <a class="nav-link" href="/">Главная</a>
                 </li>
-            {{ end }}
-        </ul>
+                {{ range .UrlParams}}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="/admin?token={{ .Token }}&table={{ .Table }}&offset={{ .Offset }}">{{ .Label }}</a>
+                    </li>
+                {{ end }}
+            </ul>
+        </div>
     </div>
 </nav>
 
@@ -193,7 +221,8 @@
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary btn-sm" role="button" onclick="newDetail()">NEW</a>
+                        <a class="btn btn-primary btn-sm" role="button" onclick="newDetail()"><i
+                                    class="fas fa-plus"></i></a>
                     </th>
                     <th scope="col">Номер</th>
                     <th scope="col">Имя</th>
@@ -207,10 +236,11 @@
                 {{ range .Details }}
                     <tr>
                         <td>
-                            <div class="btn-group-sm">
-                                <a class="btn btn-warning btn-sm" role="button" onclick="editDetail({{ .ID }})">EDIT</a>
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-warning btn-sm" role="button" onclick="editDetail({{ .ID }})"><i
+                                            class="fas fa-edit"></i> </a>
                                 <a class="btn btn-danger btn-sm" role="button"
-                                   onclick="deleteRow({{ .ID }}, 'details')">DEL</a>
+                                   onclick="deleteRow({{ .ID }}, 'details')"><i class="fas fa-trash"></i></a>
                             </div>
                         </td>
                         <td id="detail_id_{{ .ID }}">{{ .ID }}</td>
@@ -256,7 +286,7 @@
                     <label for="detail_supplier" class="form-label">Поставщик</label>
                     <input type="text" class="form-control" id="detail_supplier">
                 </div>
-                <a class="btn btn-primary" role="button" onclick="updateNewDetail()">UPD/NEW</a>
+                <a class="btn btn-primary" role="button" onclick="updateNewDetail()">Применить</a>
             </div>
         </div>
     </div>
@@ -271,7 +301,8 @@
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary btn-sm" role="button" onclick="newStock()">NEW</a>
+                        <a class="btn btn-primary btn-sm" role="button" onclick="newStock()"><i class="fas fa-plus"></i>
+                        </a>
                     </th>
                     <th scope="col">Номер</th>
                     <th scope="col">Адрес</th>
@@ -282,9 +313,12 @@
                 {{ range .Stocks }}
                     <tr>
                         <td>
-                            <a class="btn btn-warning btn-sm" role="button" onclick="editStock({{ .ID }})">EDIT</a>
-                            <a class="btn btn-danger btn-sm" role="button"
-                               onclick="deleteRow({{ .ID }}, 'stocks')">DEL</a>
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-warning btn-sm" role="button" onclick="editStock({{ .ID }})"><i
+                                            class="fas fa-edit"></i> </a>
+                                <a class="btn btn-danger btn-sm" role="button"
+                                   onclick="deleteRow({{ .ID }}, 'stocks')"><i class="fas fa-trash"></i></a>
+                            </div>
                         </td>
                         <td id="stock_id_{{ .ID }}">{{ .ID }}</td>
                         <td id="stock_addr_{{ .ID }}">{{ .Address }}</td>
@@ -310,7 +344,7 @@
                     <label for="stock_phone" class="form-label">Телефон</label>
                     <input type="text" class="form-control" id="stock_phone">
                 </div>
-                <a class="btn btn-primary" role="button" onclick="updateNewStock()">UPD/NEW</a>
+                <a class="btn btn-primary" role="button" onclick="updateNewStock()">Применить</a>
             </div>
         </div>
     </div>
@@ -325,7 +359,8 @@
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary btn-sm" role="button" onclick="newSupplier()">NEW</a>
+                        <a class="btn btn-primary btn-sm" role="button" onclick="newSupplier()"><i
+                                    class="fas fa-plus"></i> </a>
                     </th>
                     <th scope="col">Номер</th>
                     <th scope="col">Имя</th>
@@ -337,8 +372,12 @@
                 {{ range .Suppliers }}
                     <tr>
                         <td>
-                            <a class="btn btn-warning btn-sm" role="button" onclick="editSupplier({{ .ID }})">EDIT</a>
-                            <a class="btn btn-danger btn-sm" role="button" onclick="deleteRow({{ .ID }}, 'suppliers')">DEL</a>
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-warning btn-sm" role="button" onclick="editSupplier({{ .ID }})"><i
+                                            class="fas fa-edit"></i> </a>
+                                <a class="btn btn-danger btn-sm" role="button"
+                                   onclick="deleteRow({{ .ID }}, 'suppliers')"><i class="fas fa-trash"></i></a>
+                            </div>
                         </td>
                         <td id="supplier_id_{{ .ID }}">{{ .ID }}</td>
                         <td id="supplier_name_{{ .ID }}">{{ .Name }}</td>
@@ -369,7 +408,7 @@
                     <label for="supplier_phone" class="form-label">Телефон</label>
                     <input type="text" class="form-control" id="supplier_phone">
                 </div>
-                <a class="btn btn-primary" role="button" onclick="updateNewSupplier()">UPD/NEW</a>
+                <a class="btn btn-primary" role="button" onclick="updateNewSupplier()">Применить</a>
             </div>
         </div>
     </div>
@@ -384,7 +423,8 @@
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a class="btn btn-primary btn-sm" role="button" onclick="newDetailStock()">NEW</a>
+                        <a class="btn btn-primary btn-sm" role="button" onclick="newDetailStock()"><i
+                                    class="fas fa-plus"></i> </a>
                     </th>
                     <th scope="col">ID</th>
                     <th scope="col">Деталь</th>
@@ -396,10 +436,12 @@
                 {{ range .DetailStocks }}
                     <tr>
                         <td>
-                            <a class="btn btn-warning btn-sm" role="button"
-                               onclick="editDetailStock({{ .ID }})">EDIT</a>
-                            <a class="btn btn-danger btn-sm" role="button"
-                               onclick="deleteRow({{ .ID }}, 'detail_stocks')">DEL</a>
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-warning btn-sm" role="button" onclick="editDetailStock({{ .ID }})"><i
+                                            class="fas fa-edit"></i> </a>
+                                <a class="btn btn-danger btn-sm" role="button"1
+                                   onclick="deleteRow({{ .ID }}, 'detail_stocks')"><i class="fas fa-trash"></i></a>
+                            </div>
                         </td>
                         <td id="detail_stock_id_{{ .ID }}">{{ .ID }}</td>
                         <td id="detail_stock_detail_id_{{ .ID }}">{{ .DetailID }}</td>
@@ -430,7 +472,7 @@
                     <label for="detail_stock_count" class="form-label">Кол-во</label>
                     <input type="text" class="form-control" id="detail_stock_count">
                 </div>
-                <a class="btn btn-primary" role="button" onclick="updateNewDetailStock()">UPD/NEW</a>
+                <a class="btn btn-primary" role="button" onclick="updateNewDetailStock()">Применить</a>
             </div>
         </div>
     </div>
@@ -438,20 +480,29 @@
 
 {{ if .ImagesIDs }}
     <div class="m-5">
-        <h1>Картинки</h1>
+        <h1>Загрузить изображение(не более 5 МБ)</h1>
+        <div class="input-group">
+            <input type="file" class="form-control" id="img" name="img" accept="image/*">
+            <a class="btn btn-primary" role="button" onclick="uploadImage()"><i class="fas fa-upload"></i> Загрузить</a>
+        </div>
+
+        <h1>Изображения</h1>
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">FileID</th>
                 <th scope="col">Превью</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             {{ range .ImagesIDs}}
-            <tr>
-                <td>{{ . }}</td>
-                <td><img class="img-fluid rounded limited-keepaspect" src="/img/{{ . }}"/></td>
-            </tr>
+                <tr>
+                    <td>{{ . }}</td>
+                    <td><img class="img-fluid rounded limited-keepaspect" src="/img/{{ . }}"/></td>
+                    <td><a class="btn btn-danger btn-sm" role="button" onclick="deleteImage({{ . }})"><i
+                                    class="fas fa-trash"></i> </a></td>
+                </tr>
             {{ end }}
             </tbody>
         </table>

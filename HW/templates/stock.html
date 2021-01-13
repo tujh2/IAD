@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Склад</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .limited-keepaspect {
+            max-width: 256px;
+            max-height: 256px;
+            width: auto;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="m-5">
+    <div class="btn-group" role="group">
+        <a class="btn btn-primary" role="button" onclick="history.back()">Назад</a>
+        <a class="btn btn-primary" role="button" href="/">На главную</a>
+    </div>
+    <h1>Склад: {{ .Stock.Address }}</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Номер</th>
+            <th scope="col">Телефон</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ .Stock.ID }}</td>
+            <td>{{ .Stock.Phone }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    {{ if .Details }}
+        <h1>Детали на этом складе:</h1>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Номер</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Вес</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Поставщик</th>
+                <th scope="col">Превью</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{ range .Details }}
+                <tr>
+                    <td><a class="btn btn-link" href="/detail?id={{ .ID }}">{{ .ID }}</a></td>
+                    <td>{{ .Name }}</td>
+                    <td>{{ .Description}}</td>
+                    <td>{{ .Weight }}</td>
+                    <td>{{ .Count }}</td>
+                    <td><a class="btn btn-link" href="/supplier?id={{ .Supplier }}">{{ .SupplierName }}</a></td>
+                    <td><img class="img-fluid rounded limited-keepaspect" src="/img/{{ .Image }}"/></td>
+                </tr>
+            {{ end }}
+            </tbody>
+        </table>
+    {{ end }}
+
+    {{ if .Suppliers }}
+    {{ end }}
+
+</div>
+
+</body>
+</html>
