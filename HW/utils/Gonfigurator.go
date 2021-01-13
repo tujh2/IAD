@@ -4,6 +4,7 @@ import (
 	"github.com/BurntSushi/toml"
 	"io/ioutil"
 	"log"
+	"os"
 )
 
 type Config struct {
@@ -20,11 +21,16 @@ var DefaultConfig = Config{
 	DatabasePath: "hw.db",
 }
 
-var configPath = "./"
-var configName = "hw.conf"
+var defConfigLocation = "./hw.conf"
 
 func ReadConfig() Config {
-	configBytes, err := ioutil.ReadFile(configPath + configName)
+	var configLocation string
+	if len(os.Args) > 1 {
+		configLocation = os.Args[1]
+	} else {
+		configLocation = defConfigLocation
+	}
+	configBytes, err := ioutil.ReadFile(configLocation)
 	if err != nil {
 		log.Println("ERROR: Failed to read config file: " + err.Error())
 		log.Println("Warning: use default config instead")

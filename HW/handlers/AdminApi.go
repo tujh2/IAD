@@ -3,7 +3,10 @@ package handlers
 import (
 	"../models"
 	"../utils"
+	"crypto/sha1"
+	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -14,7 +17,6 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 	token := r.URL.Query().Get("token")
 	if token != ctx.Config.AdminToken {
 		w.WriteHeader(http.StatusForbidden)
-		_, _ = w.Write([]byte("403 Access denied."))
 		return
 	}
 
@@ -37,8 +39,7 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 func UpdateHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext) {
 	token := r.URL.Query().Get("token")
 	if token != ctx.Config.AdminToken {
-		w.WriteHeader(http.StatusForbidden)
-		_, _ = w.Write([]byte("403 Access denied."))
+		writeHttpCode(http.StatusForbidden, w)
 		return
 	}
 
@@ -47,8 +48,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 	bodyBytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		_, _ = w.Write([]byte("500"))
+		writeHttpCode(http.StatusInternalServerError, w)
 		return
 	}
 
@@ -59,8 +59,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 		err := json.Unmarshal(bodyBytes, &detail)
 		if err != nil {
 			log.Println(err)
-			w.WriteHeader(http.StatusInternalServerError)
-			_, _ = w.Write([]byte("500"))
+			writeHttpCode(http.StatusInternalServerError, w)
 			return
 		}
 		ctx.DB.Save(&detail)
@@ -69,8 +68,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 		err := json.Unmarshal(bodyBytes, &supplier)
 		if err != nil {
 			log.Println(err)
-			w.WriteHeader(http.StatusInternalServerError)
-			_, _ = w.Write([]byte("500"))
+			writeHttpCode(http.StatusInternalServerError, w)
 			return
 		}
 		ctx.DB.Save(&supplier)
@@ -79,8 +77,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 		err := json.Unmarshal(bodyBytes, &stock)
 		if err != nil {
 			log.Println(err)
-			w.WriteHeader(http.StatusInternalServerError)
-			_, _ = w.Write([]byte("500"))
+			writeHttpCode(http.StatusInternalServerError, w)
 			return
 		}
 		ctx.DB.Save(&stock)
@@ -89,11 +86,47 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext
 		err := json.Unmarshal(bodyBytes, &detailStock)
 		if err != nil {
 			log.Println(err)
-			w.WriteHeader(http.StatusInternalServerError)
-			_, _ = w.Write([]byte("500"))
+			writeHttpCode(http.StatusInternalServerError, w)
 			return
 		}
 		ctx.DB.Save(&detailStock)
 	}
 
+}
+
+
+func UploadImage(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext) {
+	err := r.ParseMultipartForm(10 << 20)
+	if err != nil {
+		log.Println(err)
+		writeHttpCode(http.StatusInternalServerError, w)
+		return
+	}
+	file, handler, err := r.FormFile("file")
+	if err != nil {
+		log.Println(err)
+		writeHttpCode(http.StatusInternalServerError, w)
+		return
+	}
+	defer file.Close()
+	fmt.Printf("Uploaded File: %+v\n", handler.Filename)
+	fmt.Printf("File Size: %+v\n", handler.Size)
+	fmt.Printf("MIME Header: %+v\n", handler.Header)
+
+	fileBytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		log.Println(err)
+		writeHttpCode(http.StatusInternalServerError, w)
+		return
+	}
+
+	hasher := sha1.New()
+	hasher.Write(fileBytes)
+	fileId := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
+	err = ioutil.WriteFile(ctx.Config.Root + "images/" + fileId, fileBytes, 0644)
+	if err != nil {
+		log.Println(err)
+		writeHttpCode(http.StatusInternalServerError, w)
+		return
+	}
 }

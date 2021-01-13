@@ -4,6 +4,7 @@ import (
 	"../models"
 	"../utils"
 	"html/template"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
@@ -15,6 +16,7 @@ type AdminHtmlPageObject struct {
 	Suppliers    *[]models.Supplier
 	Stocks       *[]models.Stock
 	DetailStocks *[]models.DetailStock
+	ImagesIDs    *[]string
 }
 
 type UrlParam struct {
@@ -43,6 +45,7 @@ func AdminHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext)
 			{Token: token, Table: "suppliers", Offset: offsetStr},
 			{Token: token, Table: "stocks", Offset: offsetStr},
 			{Token: token, Table: "detail_stocks", Offset: offsetStr},
+			{Token: token, Table: "images", Offset: offsetStr},
 		},
 	}
 
@@ -59,6 +62,19 @@ func AdminHandler(w http.ResponseWriter, r *http.Request, ctx *utils.AppContext)
 	case "detail_stocks":
 		pageData.DetailStocks = &[]models.DetailStock{}
 		ctx.DB.Offset(offset).Limit(PAGELIMIT).Find(pageData.DetailStocks)
+	case "images":
+		files, err := ioutil.ReadDir(ctx.Config.Root + "images")
+		if err != nil {
+			writeCode(HttpInternalServerError, w, ctx)
+			return
+		}
+
+		pageData.ImagesIDs = &[]string{}
+		for _, file := range files {
+			if !file.IsDir() {
+				*pageData.ImagesIDs = append(*pageData.ImagesIDs, file.Name())
+			}
+		}
 	}
 
 	tmpl, err := template.ParseFiles(ctx.Config.Root + "templates/admin.html")
