@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <script src="/static/js/bootstrap.bundle.min.js"></script>
+
+    <link href="/static/c3/c3.css" rel="stylesheet">
+    <script src="/static/c3/d3-5.8.2.min.js" charset="utf-8"></script>
+    <script src="/static/c3/c3.min.js"></script>
+
     <style>
         .limited-keepaspect {
             max-width: 256px;
@@ -63,6 +68,25 @@
 
     {{ if .Stocks }}
         <h1>Склады:</h1>
+        <div id="chart"></div>
+        <script>
+            const chart = c3.generate({
+                bindto: '#chart',
+                data: {
+                    columns: [
+                        {{ range .Stocks}}
+                        ['{{ .Address }}', {{ .Count }}],
+                        {{ end }}
+                    ],
+                    type: 'pie'
+                },
+                bar: {
+                    width: {
+                        ratio: 0.5
+                    }
+                }
+            });
+        </script>
         <table class="table table-striped">
             <thead>
             <tr>
