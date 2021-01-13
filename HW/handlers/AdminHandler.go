@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"../models"
-	"../utils"
+	"HW/models"
+	"HW/utils"
 	"html/template"
 	"io/ioutil"
 	"log"

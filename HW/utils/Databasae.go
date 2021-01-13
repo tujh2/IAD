@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"../models"
+	"HW/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"log"

@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"../utils"
+	"HW/utils"
 	"fmt"
 	"html/template"
 	"log"

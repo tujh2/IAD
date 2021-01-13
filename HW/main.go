@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./handlers"
-	"./utils"
+	"HW/handlers"
+	"HW/utils"
 	"log"
 	"net/http"
 )
@@ -11,7 +11,7 @@ func main() {
 	conf := utils.ReadConfig()
 	applicationContext := utils.AppContext{
 		Config: conf,
-		DB: utils.InitDatabase(conf),
+		DB:     utils.InitDatabase(conf),
 	}
 
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
@@ -36,7 +36,6 @@ func main() {
 		log.Println(request.URL.Path)
 		handlers.AdminHandler(writer, request, &applicationContext)
 	})
-
 
 	http.HandleFunc("/api/delete", func(writer http.ResponseWriter, request *http.Request) {
 		log.Println(request.URL.Path)

@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"../models"
-	"../utils"
+	"HW/models"
+	"HW/utils"
 	"crypto/sha1"
 	"encoding/base64"
 	"encoding/json"
