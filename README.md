@@ -31,3 +31,7 @@
 * [Код](https://github.com/tujh2/IAD/blob/master/lab8/)
 * [Отчет](https://github.com/tujh2/IAD/blob/master/reports/lab8.pdf)
 
+## Домашнее задание:
+* [Код](https://github.com/tujh2/IAD/blob/master/HW/)
+* [Отчет](https://github.com/tujh2/IAD/blob/master/reports/HW.pdf)
+
