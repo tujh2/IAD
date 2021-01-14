@@ -1,0 +1,117 @@
+\documentclass[20pt,a4paper]{report}
+\usepackage[T2A,T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{blindtext}
+\usepackage[russian]{babel}
+\usepackage{mwe}
+\usepackage{graphbox}
+\usepackage[document]{ragged2e}
+\usepackage[margin=50pt]{geometry}
+\usepackage{longtable}
+\usepackage{fontspec}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{minted}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\setstretch{1.5}
+\graphicspath{{./images/}}
+\setmainfont{LiberationSerif}
+\setmonofont{Hack}
+\titleformat{\chapter}{\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
+\titleclass{\chapter}{straight}
+\titlespacing{\chapter}{0pt}{0pt}{5pt}[25pt]
+
+
+\begin{document}
+	\begin{titlepage}
+		\begin{minipage}{0.3\textwidth}
+		\includegraphics[scale=0.03]{logo.png}	
+		\end{minipage}
+		\begin{minipage}{0.6\textwidth}\centering
+			\textbf{
+				Министерство науки и высшего образования Российской Федерации
+				Федеральное государственное бюджетное образовательное 
+				учреждение высшего образования
+				«Московский государственный технический университет
+				имени Н.Э. Баумана (национальный исследовательский университет)»
+				(МГТУ им. Н.Э. Баумана)
+			}	
+		\end{minipage}
+	
+		\vspace{5cm}
+		\centering
+		\Large
+		\textbf{
+			Лабораторная работа №4 \\
+			по курсу «Разработка интернет-приложений» \\
+		}
+
+		\vspace{6cm}
+		\begin{flushright}
+			Выполнил \\ 
+			студент группы ИУ5-54Б \\ 
+			Сысойкин Е.М. 
+		\end{flushright}
+		\vspace{5cm}
+		Москва, 2020
+	\end{titlepage}
+
+	\chapter{Общее описание задания}
+		\large
+		\begin{enumerate}
+			\item Необходимо для произвольной предметной области реализовать три шаблона проектирования: один порождающий, один структурный и один поведенческий. В качестве справочника шаблонов можно использовать следующий каталог.
+			\item Для каждой реализации шаблона необходимо написать модульный тест. В модульных тестах необходимо применить следующие технологии: \\
+			\begin{itemize}
+				\item TDD - фреймворк.
+				\item BDD - фреймворк.
+				\item Создание Mock-объектов.
+			\end{itemize}
+		\end{enumerate}
+
+	\chapter{Текст программы}
+		\qquad \textbf{patterns/adapter\_pattern.py} \\
+		\small
+		\inputminted[tabsize=4, linenos]{python}{patterns/adapter_pattern.py}
+		\large
+		\qquad \textbf{patterns/builder\_pattern.py} \\
+		\small
+		\inputminted[tabsize=4, linenos]{python}{patterns/builder_pattern.py}
+		\large
+		\qquad \textbf{patterns/observer\_pattern.py} \\
+		\small
+		\inputminted[tabsize=4, linenos]{python}{patterns/observer_pattern.py}
+		\large
+
+		\qquad \textbf{tests.py} \\
+		\small
+		\inputminted[tabsize=4, linenos]{python}{tests.py}
+		\large
+		
+		\qquad \textbf{features/test.feature} \\
+		\small
+		\inputminted[tabsize=4, linenos]{python}{features/test.feature}
+		\large
+
+		\qquad \textbf{features/steps/test.py} \\
+		\small
+		\inputminted[tabsize=4, linenos]{python}{features/steps/test.py}
+		\large
+
+		\chapter{Экранные формы}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.8]{11.png}
+		\end{figure}
+
+\end{document}
+
